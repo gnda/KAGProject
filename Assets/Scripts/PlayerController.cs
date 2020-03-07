@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using SDD.Events;
 
 public class PlayerController : SimpleGameStateObserver, IEventHandler{
@@ -13,7 +14,7 @@ public class PlayerController : SimpleGameStateObserver, IEventHandler{
 	#endregion
 
 
-	private Rigidbody m_Rigidbody;
+	private Rigidbody2D m_Rigidbody;
 	private Transform m_Transform;
 
 	[SerializeField]
@@ -27,15 +28,15 @@ public class PlayerController : SimpleGameStateObserver, IEventHandler{
 	protected override void Awake()
 	{
 		base.Awake();
-		m_Rigidbody = GetComponent<Rigidbody>();
+		m_Rigidbody = GetComponent<Rigidbody2D>();
 		m_Transform = GetComponent<Transform>();
 	}
 
 	private void Reset()
 	{
 		m_Rigidbody.position = m_SpawnPoint.position;
-		m_Rigidbody.velocity = Vector3.zero;
-		m_Rigidbody.angularVelocity = Vector3.zero;
+		m_Rigidbody.velocity = Vector2.zero;
+		m_Rigidbody.angularVelocity = 0;
 	}
 
 	// Use this for initialization
@@ -52,24 +53,33 @@ public class PlayerController : SimpleGameStateObserver, IEventHandler{
 		bool jump = Input.GetAxis("Jump") > 0 || Input.GetKeyDown(KeyCode.Space);
 		bool fire = Input.GetAxis("Fire1") > 0;
 
-		//m_Rigidbody.rotation = Quaternion.AngleAxis(90 * Mathf.Sign(hInput), Vector3.up);
-
-		m_Rigidbody.MovePosition(m_Rigidbody.position + Time.fixedDeltaTime * m_TranslationSpeed * hInput * m_Transform.forward);
-
+		// m_Rigidbody.rotation = Quaternion.AngleAxis(90 * Mathf.Sign(hInput), Vector2.up);
+		Vector2 deplacement = m_Rigidbody.position;
+		Vector2 hori = Time.fixedDeltaTime * m_TranslationSpeed * hInput * (Vector2) m_Transform.right ;
+		Vector2 verti = Time.fixedDeltaTime * m_TranslationSpeed * vInput * (Vector2) m_Transform.up ;
+		if(Math.Abs(vInput) > 0.01)
+		{
+			deplacement += verti;
+		}
+		if(Math.Abs(hInput) > 0.01)
+		{
+			deplacement += hori;
+		}
+		m_Rigidbody.MovePosition(deplacement);
 		if (jump && m_IsGrounded)
 		{
-			Vector3 jumpForce = Vector3.up * m_JumpImpulsionMagnitude;
-			m_Rigidbody.AddForce(jumpForce, ForceMode.Impulse);
+			Vector2 jumpForce = Vector2.up * m_JumpImpulsionMagnitude;
+			m_Rigidbody.AddForce(jumpForce, ForceMode2D.Impulse);
 		}
 
 		if (m_IsGrounded)
 		{
-			m_Rigidbody.velocity = Vector3.zero;
+			m_Rigidbody.velocity = Vector2.zero;
 		}
 
-		m_Rigidbody.angularVelocity = Vector3.zero;
+		m_Rigidbody.angularVelocity = 0;
 
-		Vector3 gravity = m_HighGravity;
+		Vector2 gravity = m_HighGravity;
 		if (fire && m_Rigidbody.velocity.y < 0) gravity = m_LowGravity;
 
 		m_Rigidbody.AddForce(gravity*m_Rigidbody.mass);
@@ -81,7 +91,7 @@ public class PlayerController : SimpleGameStateObserver, IEventHandler{
 		if (collision.gameObject.CompareTag("Ground")
 			|| collision.gameObject.CompareTag("Platform"))
 		{
-			Vector3 colLocalPt = m_Transform.InverseTransformPoint(collision.contacts[0].point);
+			Vector2 colLocalPt = m_Transform.InverseTransformPoint(collision.contacts[0].point);
 
 			if (colLocalPt.magnitude<.5f)
 				m_IsGrounded = true;
