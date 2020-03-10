@@ -14,6 +14,7 @@ public class PlayerController : SimpleGameStateObserver, IEventHandler{
 	#endregion
 
 
+	private Drone m_Drone;
 	private Rigidbody2D m_Rigidbody;
 	private Transform m_Transform;
 
@@ -28,7 +29,8 @@ public class PlayerController : SimpleGameStateObserver, IEventHandler{
 	protected override void Awake()
 	{
 		base.Awake();
-		m_Rigidbody = GetComponent<Rigidbody2D>();
+		m_Drone = GetComponentInChildren<Drone>();
+		m_Rigidbody = m_Drone.GetComponent<Rigidbody2D>();
 		m_Transform = GetComponent<Transform>();
 	}
 
@@ -50,7 +52,7 @@ public class PlayerController : SimpleGameStateObserver, IEventHandler{
 
 		float hInput = Input.GetAxis("Horizontal");
 		float vInput = Input.GetAxis("Vertical");
-		bool jump = Input.GetAxis("Jump") > 0 || Input.GetKeyDown(KeyCode.Space);
+		//bool jump = Input.GetAxis("Jump") > 0 || Input.GetKeyDown(KeyCode.Space);
 		bool fire = Input.GetAxis("Fire1") > 0;
 
 		// m_Rigidbody.rotation = Quaternion.AngleAxis(90 * Mathf.Sign(hInput), Vector2.up);
@@ -60,17 +62,19 @@ public class PlayerController : SimpleGameStateObserver, IEventHandler{
 		if(Math.Abs(vInput) > 0.01)
 		{
 			deplacement += verti;
+			//StartCoroutine(m_Drone.RotationCoroutine(Vector2.up * Math.Sign(vInput)));
 		}
 		if(Math.Abs(hInput) > 0.01)
 		{
 			deplacement += hori;
+			//StartCoroutine(m_Drone.RotationCoroutine(Vector2.right * Math.Sign(hInput)));
 		}
 		m_Rigidbody.MovePosition(deplacement);
-		if (jump && m_IsGrounded)
+		/*if (jump && m_IsGrounded)
 		{
 			Vector2 jumpForce = Vector2.up * m_JumpImpulsionMagnitude;
 			m_Rigidbody.AddForce(jumpForce, ForceMode2D.Impulse);
-		}
+		}*/
 
 		if (m_IsGrounded)
 		{
