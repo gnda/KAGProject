@@ -1278,6 +1278,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8668460933919113563}
     m_Modifications:
+    - target: {fileID: 2958760538049129762, guid: f937eff99e429c6419eb0abc1091524f,
+        type: 3}
+      propertyPath: m_Name
+      value: GreenCrystal (4)
+      objectReference: {fileID: 0}
     - target: {fileID: 579815450781535672, guid: f937eff99e429c6419eb0abc1091524f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1332,11 +1337,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2958760538049129762, guid: f937eff99e429c6419eb0abc1091524f,
-        type: 3}
-      propertyPath: m_Name
-      value: GreenCrystal (4)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f937eff99e429c6419eb0abc1091524f, type: 3}
@@ -1428,6 +1428,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8668460933919113563}
     m_Modifications:
+    - target: {fileID: 2958760538049129762, guid: f937eff99e429c6419eb0abc1091524f,
+        type: 3}
+      propertyPath: m_Name
+      value: GreenCrystal (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 579815450781535672, guid: f937eff99e429c6419eb0abc1091524f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1483,11 +1488,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2958760538049129762, guid: f937eff99e429c6419eb0abc1091524f,
-        type: 3}
-      propertyPath: m_Name
-      value: GreenCrystal (1)
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f937eff99e429c6419eb0abc1091524f, type: 3}
 --- !u!4 &3491388771030060698 stripped
@@ -1503,6 +1503,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8668460933919113563}
     m_Modifications:
+    - target: {fileID: 2958760538049129762, guid: f937eff99e429c6419eb0abc1091524f,
+        type: 3}
+      propertyPath: m_Name
+      value: GreenCrystal
+      objectReference: {fileID: 0}
     - target: {fileID: 579815450781535672, guid: f937eff99e429c6419eb0abc1091524f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1558,11 +1563,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2958760538049129762, guid: f937eff99e429c6419eb0abc1091524f,
-        type: 3}
-      propertyPath: m_Name
-      value: GreenCrystal
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f937eff99e429c6419eb0abc1091524f, type: 3}
 --- !u!4 &6320476043277604558 stripped
@@ -1578,6 +1578,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8668460933919113563}
     m_Modifications:
+    - target: {fileID: 2958760538049129762, guid: f937eff99e429c6419eb0abc1091524f,
+        type: 3}
+      propertyPath: m_Name
+      value: GreenCrystal (2)
+      objectReference: {fileID: 0}
     - target: {fileID: 579815450781535672, guid: f937eff99e429c6419eb0abc1091524f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1632,11 +1637,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2958760538049129762, guid: f937eff99e429c6419eb0abc1091524f,
-        type: 3}
-      propertyPath: m_Name
-      value: GreenCrystal (2)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f937eff99e429c6419eb0abc1091524f, type: 3}
@@ -1728,6 +1728,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8668460933919113563}
     m_Modifications:
+    - target: {fileID: 2958760538049129762, guid: f937eff99e429c6419eb0abc1091524f,
+        type: 3}
+      propertyPath: m_Name
+      value: GreenCrystal (5)
+      objectReference: {fileID: 0}
     - target: {fileID: 579815450781535672, guid: f937eff99e429c6419eb0abc1091524f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1782,11 +1787,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2958760538049129762, guid: f937eff99e429c6419eb0abc1091524f,
-        type: 3}
-      propertyPath: m_Name
-      value: GreenCrystal (5)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f937eff99e429c6419eb0abc1091524f, type: 3}
@@ -1878,6 +1878,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8668460933919113563}
     m_Modifications:
+    - target: {fileID: 2958760538049129762, guid: f937eff99e429c6419eb0abc1091524f,
+        type: 3}
+      propertyPath: m_Name
+      value: GreenCrystal (3)
+      objectReference: {fileID: 0}
     - target: {fileID: 579815450781535672, guid: f937eff99e429c6419eb0abc1091524f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1932,11 +1937,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2958760538049129762, guid: f937eff99e429c6419eb0abc1091524f,
-        type: 3}
-      propertyPath: m_Name
-      value: GreenCrystal (3)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f937eff99e429c6419eb0abc1091524f, type: 3}

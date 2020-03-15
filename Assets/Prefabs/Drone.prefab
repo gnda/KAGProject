@@ -214,6 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61efcd3db5d863245af9baada9fce550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotationDuration: 10
 --- !u!1 &8255660113821040133
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,3 +308,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4e49c301fac91f4492f331046f52739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ammunitionPrefab: {fileID: 8613115151589063148, guid: df9f8f0e221d26241b59d6bc08808c0f,
+    type: 3}
+  m_shootDuration: 20

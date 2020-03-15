@@ -15,6 +15,7 @@ public class PlayerController : SimpleGameStateObserver, IEventHandler{
 
 
 	private Drone m_Drone;
+	private Turret m_Turret;
 	private Rigidbody2D m_Rigidbody;
 	private Transform m_Transform;
 
@@ -30,6 +31,7 @@ public class PlayerController : SimpleGameStateObserver, IEventHandler{
 	{
 		base.Awake();
 		m_Drone = GetComponentInChildren<Drone>();
+		m_Turret = m_Drone.GetComponentInChildren<Turret>();
 		m_Rigidbody = m_Drone.GetComponent<Rigidbody2D>();
 		m_Transform = GetComponent<Transform>();
 	}
@@ -59,17 +61,42 @@ public class PlayerController : SimpleGameStateObserver, IEventHandler{
 		Vector2 deplacement = m_Rigidbody.position;
 		Vector2 hori = Time.fixedDeltaTime * m_TranslationSpeed * hInput * (Vector2) m_Transform.right ;
 		Vector2 verti = Time.fixedDeltaTime * m_TranslationSpeed * vInput * (Vector2) m_Transform.up ;
+
+		float rotationAngle = 0.01f;
+		
+		
 		if(Math.Abs(vInput) > 0.01)
 		{
 			deplacement += verti;
+			if (Math.Sign(vInput) < 0)
+			{
+				rotationAngle = 180;
+			}
+			
+			//Debug.Log(180 * Math.Sign(vInput));
 			//StartCoroutine(m_Drone.RotationCoroutine(Vector2.up * Math.Sign(vInput)));
 		}
 		if(Math.Abs(hInput) > 0.01)
 		{
 			deplacement += hori;
+			rotationAngle = -90 * Math.Sign(hInput);
 			//StartCoroutine(m_Drone.RotationCoroutine(Vector2.right * Math.Sign(hInput)));
 		}
+
+		if (Math.Abs(rotationAngle) > 0.01)
+		{
+			m_Drone.transform.rotation = Quaternion.identity;
+			m_Drone.transform.Rotate(Vector3.forward, rotationAngle);
+		}
+		
 		m_Rigidbody.MovePosition(deplacement);
+
+		if (fire && !m_Turret.IsShooting)
+		{
+			Debug.Log("clicked");
+			StartCoroutine(m_Turret.ShootCoroutine(transform.position + Vector3.right * 4));
+		};
+		
 		/*if (jump && m_IsGrounded)
 		{
 			Vector2 jumpForce = Vector2.up * m_JumpImpulsionMagnitude;
