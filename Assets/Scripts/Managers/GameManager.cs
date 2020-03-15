@@ -193,11 +193,11 @@ public class GameManager : Manager<GameManager> {
 	#endregion
 
 	#region Players
-	public PlayerController[] PlayerControllers
+	public Player[] Players
 	{
 		get
 		{
-			return FindObjectsOfType<PlayerController>();
+			return FindObjectsOfType<Player>();
 		}
 	}
 	public Transform[] PlayerTransforms
@@ -247,7 +247,7 @@ public class GameManager : Manager<GameManager> {
 	#region Callbacks to events issued by Score items
 	private void ScoreHasBeenGained(ScoreItemEvent e)
 	{
-		IncrementScore(e.eScore.Score);
+		//IncrementScore(e.eScore.Score);
 	}
 	#endregion
 

@@ -66,7 +66,7 @@ public class EnemyHasBeenDestroyedEvent : SDD.Events.Event
 #region Score Event
 public class ScoreItemEvent : SDD.Events.Event
 {
-	public IScore eScore;
+    public int eScore = 0;
 }
 #endregion
 

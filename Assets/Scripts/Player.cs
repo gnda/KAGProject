@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private int m_score = 0;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public int Score { get => m_score; set => m_score = value; }
+
+   
 }
