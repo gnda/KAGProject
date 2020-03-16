@@ -13,9 +13,7 @@ public class Gem : MonoBehaviour
         Player player = collision.gameObject.GetComponentInParent<Player>();
         if (player != null)
         {
-            //RECUP SCORE
             player.Score += m_value;
-            Debug.Log("collision between ruby & player");
             Destroy(gameObject);
         }
     }
