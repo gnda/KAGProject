@@ -1,3 +1,5 @@
-﻿public class Enemy
+﻿using UnityEngine;
+
+public class Enemy : MonoBehaviour
 {
 }
