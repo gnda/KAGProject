@@ -11,9 +11,16 @@ public class Sliceable : MonoBehaviour
             
             Vector3 endPos = startPos + (Vector3) bullet.GetComponent<Rigidbody2D>().velocity.normalized;
 
-            C_mainSlice sliceManager = FindObjectOfType<C_mainSlice>();
+            Player player = bullet.Origin.GetComponentInParent<Player>();
+
+            if (player != null)
+            {
+                player.Score += 100;
+                Destroy(gameObject);
+            }
+            //C_mainSlice sliceManager = FindObjectOfType<C_mainSlice>();
             
-            sliceManager.m_SYSLine(startPos, endPos, endPos.normalized);
+            //sliceManager.m_SYSLine(startPos, endPos, endPos.normalized);
         }
     }
 }

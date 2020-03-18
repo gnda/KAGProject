@@ -28,7 +28,8 @@ public class HudManager : Manager<HudManager>
     #region Monobehaviour Lifecycle
     private void Update()
     {
-        m_TxtScore.text = GameManager.Instance.Players[0].Score.ToString();
+        if (GameManager.Instance.IsPlaying && GameManager.Instance.Players.Length > 0)
+            m_TxtScore.text = GameManager.Instance.Players[0].Score.ToString();
     }
     #endregion
     

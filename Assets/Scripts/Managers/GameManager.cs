@@ -2,6 +2,7 @@
 using UnityEngine;
 using SDD.Events;
 using System.Linq;
+using Cinemachine;
 
 public enum GameState
 {
@@ -15,6 +16,10 @@ public enum GameState
 }
 
 public class GameManager : Manager<GameManager> {
+	[Header(("GeneralPrefabs"))]
+	[SerializeField] public GameObject[] DronePrefabs;
+	private int playerDroneIndex = 0;
+	
 	#region Events' subscription
 	public override void SubscribeEvents()
 	{
@@ -192,7 +197,18 @@ public class GameManager : Manager<GameManager> {
 	}
 	#endregion
 
-	#region Players
+	#region Elements
+
+	public Camera MainCamera
+	{
+		get { return FindObjectOfType<Camera>(); }
+	}
+	
+	public CinemachineVirtualCamera VirtualCamera
+	{
+		get { return FindObjectOfType<CinemachineVirtualCamera>(); }
+	}
+	
 	public Player[] Players
 	{
 		get
@@ -207,6 +223,14 @@ public class GameManager : Manager<GameManager> {
 			return FindObjectsOfType<PlayerController>().Select(item=>item.transform).ToArray();
 		}
 	}
+	public GameObject GetSelectedDrone()
+	{
+		playerDroneIndex = playerDroneIndex >= 0 ? playerDroneIndex % 
+		    DronePrefabs.Length : DronePrefabs.Length + playerDroneIndex;
+
+		return DronePrefabs[playerDroneIndex];
+	}
+
 	#endregion
 
 	#region Game flow & Gameplay

@@ -9,20 +9,16 @@ public class PlayerController : SimpleGameStateObserver, IEventHandler{
 	private Transform m_Transform;
 	
 	[SerializeField]
-	private Transform m_SpawnPoint;
-	[SerializeField]
-	private float m_TranslationSpeed;
+	private float m_TranslationSpeed = 10f;
 
-	protected override void Awake()
+	private void Start()
 	{
-		base.Awake();
 		m_Drone = GetComponentInChildren<Drone>();
 		m_Transform = m_Drone.transform;
 	}
 
 	private void Reset()
 	{
-		transform.position = m_SpawnPoint.position;
 		transform.rotation = Quaternion.identity;
 	}
 

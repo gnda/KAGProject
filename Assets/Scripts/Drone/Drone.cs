@@ -61,6 +61,7 @@ public class Drone : MonoBehaviour
         
         GameObject bulletGO = Instantiate(bulletPrefab, 
             turretPos, Turret.transform.rotation);
+        bulletGO.GetComponent<Bullet>().Origin = transform;
         Rigidbody2D bulletRb = bulletGO.GetComponent<Rigidbody2D>();
         bulletRb.velocity = endPos.normalized * m_ShotSpeed;
         
