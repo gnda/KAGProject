@@ -78,7 +78,7 @@ public class C_mainSlice : MonoBehaviour
     #region slice objecs with begin point
     void m_sliceObjects(Vector3 p_beginPoint, Vector3 p_normal)
     {
-        var v_toSlice = GameObject.FindObjectsOfType<Sliceable>();
+        var v_toSlice = GameObject.FindObjectsOfType<Explodable>();
         List<Transform> v_positive = new List<Transform>();
         List<Transform> v_negative = new List<Transform>();
         GameObject      v_gameObject;
