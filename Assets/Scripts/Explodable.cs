@@ -4,12 +4,12 @@ public class Explodable : MonoBehaviour
 {
 
     [SerializeField] private GameObject explosion;
-    [SerializeField] private int fuel;
-    [SerializeField] private int point;
+    [SerializeField] private int life = 1;
+    [SerializeField] private int currentLife = 1;
 
     public GameObject Explosion { get => explosion; set => explosion = value; }
-    public int Fuel { get => fuel; set => fuel = value; }
-    public int Point { get => point; set => point = value; }
+    public int Life { get => life; set => life = value; }
+    public int CurrentLife { get => currentLife; set => currentLife = value; }
 
     private void Explose()
     {
@@ -17,27 +17,21 @@ public class Explodable : MonoBehaviour
         Destroy(explosionGo, 2);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
+    private void OnTriggerEnter2D(Collider2D other){
         Bullet bullet = other.gameObject.GetComponent<Bullet>();
-        if (bullet != null)
-        {
+        if (bullet != null){
             Vector3 startPos = other.transform.position;
-
             Vector3 endPos = startPos + (Vector3)bullet.GetComponent<Rigidbody2D>().velocity.normalized;
-
             Player player = bullet.Origin.GetComponentInParent<Player>();
-
-            if (player != null)
-            {
-                player.Score += this.Point;
-
-                Explose();
-                Destroy(gameObject);
+            if (player != null){
+                if (CurrentLife > 0){
+                    CurrentLife = CurrentLife - 1;
+                    if (CurrentLife == 0){
+                        Explose();
+                        Debug.Log("explosion");
+                    }
+                }
             }
-            //C_mainSlice sliceManager = FindObjectOfType<C_mainSlice>();
-
-            //sliceManager.m_SYSLine(startPos, endPos, endPos.normalized);
         }
     }
 }

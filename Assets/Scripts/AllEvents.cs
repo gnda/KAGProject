@@ -29,6 +29,8 @@ public class GameStatisticsChangedEvent : SDD.Events.Event
 	public int eScore { get; set; }
 	public int eNLives { get; set; }
 	public int eNEnemiesLeftBeforeVictory { get; set; }
+    public int eFuel { get; set; }
+
 }
 #endregion
 
@@ -67,6 +69,20 @@ public class EnemyHasBeenDestroyedEvent : SDD.Events.Event
 public class ScoreItemEvent : SDD.Events.Event
 {
     public int eScore = 0;
+}
+#endregion
+
+#region Score Event
+public class LifeItemEvent : SDD.Events.Event
+{
+    public int eNLives = 0;
+}
+#endregion
+
+#region Fuel Event
+public class FuelItemEvent : SDD.Events.Event
+{
+    public int eFuel = 0;
 }
 #endregion
 

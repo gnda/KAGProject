@@ -86,11 +86,13 @@ public class GameManager : Manager<GameManager> {
 	protected override IEnumerator InitCoroutine()
 	{
 		Menu();
-		EventManager.Instance.Raise(new GameStatisticsChangedEvent()
-		{
-			eBestScore = BestScore,
-			eScore = 0, eNLives = 0,
-			eNEnemiesLeftBeforeVictory = 0
+        EventManager.Instance.Raise(new GameStatisticsChangedEvent()
+        {
+            eBestScore = BestScore,
+            eScore = 0,
+            eNLives = 0,
+            eNEnemiesLeftBeforeVictory = 0,
+            eFuel = 0
 		});
 		yield break;
 	}
@@ -120,8 +122,12 @@ public class GameManager : Manager<GameManager> {
 	{
 		SetNLives(m_NLives - decrement);
 	}
+    void IncrementtNLives(int increment)
+    {
+        SetNLives(m_NLives + increment);
+    }
 
-	void SetNLives(int nLives)
+    void SetNLives(int nLives)
 	{
 		m_NLives = nLives;
 		EventManager.Instance.Raise(new GameStatisticsChangedEvent()
@@ -132,10 +138,35 @@ public class GameManager : Manager<GameManager> {
 			eNEnemiesLeftBeforeVictory = m_NEnemiesLeftBeforeVictory
 		});
 	}
-	#endregion
+    #endregion
 
-	#region Score
-	private int m_Score;
+    #region Fuel
+    private int m_Fuel;
+    public int Fuel
+    {
+        get { return m_Fuel; }
+        set
+        {
+            m_Fuel = value;
+        }
+    }
+    void IncrementFuel(int increment)
+    {
+        SetFuel(m_Fuel + increment);
+    }
+
+    void SetFuel(int p_fuel)
+    {
+        Fuel = p_fuel;
+        EventManager.Instance.Raise(new GameStatisticsChangedEvent()
+        {
+            eFuel = m_Score
+        });
+    }
+    #endregion
+
+    #region Score
+    private int m_Score;
 	public int Score {
 		get { return m_Score; }
 		set
@@ -170,8 +201,9 @@ public class GameManager : Manager<GameManager> {
 			eBestScore = BestScore,
 			eScore = m_Score,
 			eNLives= m_NLives,
-			eNEnemiesLeftBeforeVictory = m_NEnemiesLeftBeforeVictory
-		});
+			eNEnemiesLeftBeforeVictory = m_NEnemiesLeftBeforeVictory,
+            eFuel = m_Fuel
+        });
 	}
 	#endregion
 
@@ -192,7 +224,8 @@ public class GameManager : Manager<GameManager> {
 			eBestScore = BestScore,
 			eScore = m_Score, 
 			eNLives = m_NLives,
-			eNEnemiesLeftBeforeVictory = m_NEnemiesLeftBeforeVictory
+			eNEnemiesLeftBeforeVictory = m_NEnemiesLeftBeforeVictory,
+            eFuel = m_Fuel
 		});
 	}
 	#endregion

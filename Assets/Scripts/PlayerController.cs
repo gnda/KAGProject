@@ -49,6 +49,7 @@ public class PlayerController : SimpleGameStateObserver, IEventHandler{
 			}
 			
 			m_Drone.RotateFrame(deplacement + hori + verti);
+            m_Drone.ReductFuel(1);
 		}
 		
 		m_Drone.Move(deplacement);

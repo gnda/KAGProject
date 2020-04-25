@@ -1,20 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using SDD.Events;
 
-public class Gem : MonoBehaviour
+public class BonusLife : MonoBehaviour
 {
-    [SerializeField] private int m_value;
-    [SerializeField] private Color m_color;
-    [SerializeField] private int m_lifes = 1;
+    [SerializeField] private int m_lifes = 2;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Player player = collision.gameObject.GetComponentInParent<Player>();
         if (player != null)
         {
-            player.Score += m_value;
             player.addLife(m_lifes);
             Destroy(gameObject);
         }

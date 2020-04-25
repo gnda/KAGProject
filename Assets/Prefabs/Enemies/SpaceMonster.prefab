@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 8549596923117043564}
   - component: {fileID: 4241862974100254199}
   - component: {fileID: 2153964581120889862}
+  - component: {fileID: 4306591571597876543}
+  - component: {fileID: 7088058397484229237}
+  - component: {fileID: 324814688366376059}
   m_Layer: 0
   m_Name: SpaceMonster
   m_TagString: Untagged
@@ -93,3 +96,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0b5d53c8a9e42ebbd9f7bbdee310f62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  point: 200
+--- !u!114 &4306591571597876543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2827521344003341859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3221254d4b34c1d9c3a0d0d910f2e1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosion: {fileID: 5565589765583374101, guid: 2b4309c6cd3a51b4d9b7c2eeca0ecdc3,
+    type: 3}
+  life: 6
+  currentLife: 6
+--- !u!114 &7088058397484229237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2827521344003341859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 372a6edab5c185e4b82df4efbf845204, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_reduceLifePlayer: 4
+--- !u!61 &324814688366376059
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2827521344003341859}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.64, y: 0.64}
+    newSize: {x: 0.64, y: 0.64}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.64, y: 0.64}
+  m_EdgeRadius: 0

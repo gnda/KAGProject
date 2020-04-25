@@ -48,7 +48,7 @@ public class Level : MonoBehaviour,IEventHandler
 		playerGO.AddComponent<Player>();
 
 		GameObject droneGO = Instantiate(GameManager.Instance.GetSelectedDrone(), 
-			playerSpawnPosition.position, Quaternion.identity, playerGO.transform);
+			playerSpawnPosition.position, Quaternion.identity, playerGO.transform); //drone is a child of player
 		
 		GameManager.Instance.VirtualCamera.Follow = droneGO.transform;
 		GameManager.Instance.MainCamera.backgroundColor = backgroundColor;

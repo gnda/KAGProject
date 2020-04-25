@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3368463678311405029}
   - component: {fileID: 6889427482132502166}
   - component: {fileID: -7900171910426475552}
-  - component: {fileID: 1380499850274778880}
+  - component: {fileID: 1405964660226896316}
   m_Layer: 0
   m_Name: RedGroundCrystal
   m_TagString: Untagged
@@ -49,8 +49,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosion: {fileID: 5565589765583374101, guid: 2b4309c6cd3a51b4d9b7c2eeca0ecdc3,
     type: 3}
-  fuel: 100
-  point: 100
 --- !u!33 &3368463678311405029
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -123,7 +121,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1380499850274778880
+--- !u!114 &1405964660226896316
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,10 +130,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 8599376208656217965}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3221254d4b34c1d9c3a0d0d910f2e1b, type: 3}
+  m_Script: {fileID: 11500000, guid: fb9de11a3fcad464a9abf6bf89cd2b7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosion: {fileID: 5565589765583374101, guid: 2b4309c6cd3a51b4d9b7c2eeca0ecdc3,
-    type: 3}
   fuel: 100
   point: 100
