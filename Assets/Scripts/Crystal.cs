@@ -11,7 +11,7 @@ public class Crystal : MonoBehaviour{
     public int Point { get => point; set => point = value; }
     public int Lifes { get => m_lifes; set => m_lifes = value; }
 
-    private void OnTriggerEnter2D(Collider2D other){
+    /*private void OnTriggerEnter2D(Collider2D other){
         Bullet bullet = other.gameObject.GetComponent<Bullet>();
         
         if (bullet != null){
@@ -39,19 +39,5 @@ public class Crystal : MonoBehaviour{
             a_drone.Fuel += this.Fuel;
             Destroy(gameObject);
         }
-    }
-    
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    }*/
 }

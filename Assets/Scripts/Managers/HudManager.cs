@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Drone;
 using SDD.Events;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,7 +33,7 @@ public class HudManager : Manager<HudManager>
         if (GameManager.Instance.IsPlaying && GameManager.Instance.Players.Length > 0)
         {
             m_TxtScore.text = GameManager.Instance.Players[0].Score.ToString();
-            m_TxtFuel.text = GameManager.Instance.Players[0].gameObject.GetComponentInChildren<Drone>().Fuel.ToString();
+            m_TxtFuel.text = GameManager.Instance.Players[0].gameObject.GetComponent<FuelTank>().Fuel.ToString();
             m_TxtNLives.text = GameManager.Instance.Players[0].Life.ToString();
         }
     }

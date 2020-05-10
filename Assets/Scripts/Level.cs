@@ -2,6 +2,7 @@
 using UnityEngine;
 using SDD.Events;
 using System.Linq;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 using IEventHandler = SDD.Events.IEventHandler;
 
@@ -35,23 +36,31 @@ public class Level : MonoBehaviour,IEventHandler
 
 	private void Start()
 	{
+		transform.position = new Vector3(0,0,0f);
 		//enemies
 		m_Enemies = GetComponentsInChildren<Enemy>().ToList();
 		
-		GenerateLevel();
+		LoadLevelElements();
 	}
 
-	private void GenerateLevel()
+	private void LoadLevelElements()
 	{
-		GameObject playerGO = new GameObject("Player");
-		playerGO.AddComponent<PlayerController>();
-		playerGO.AddComponent<Player>();
-
 		GameObject droneGO = Instantiate(GameManager.Instance.GetSelectedDrone(), 
-			playerSpawnPosition.position, Quaternion.identity, playerGO.transform); //drone is a child of player
+			playerSpawnPosition.position, Quaternion.identity, transform);
 		
-		GameManager.Instance.VirtualCamera.Follow = droneGO.transform;
-		GameManager.Instance.MainCamera.backgroundColor = backgroundColor;
+		droneGO.AddComponent<PlayerController>();
+		droneGO.AddComponent<Player>();
+
+		Camera mainCamera = GameManager.Instance.MainCamera;
+		mainCamera.backgroundColor = backgroundColor;
+		
+		RawImage minimapBackground = GameManager.Instance.MinimapBackground;
+		Camera minimapCamera = GameManager.Instance.MinimapCamera;
+		minimapCamera.backgroundColor = backgroundColor;
+		minimapBackground.color = backgroundColor + new Color() {a = 1f};
+
+		GameObject allCameras = GameManager.Instance.AllCameras;
+		allCameras.GetComponent<Follow>().targetTransform = droneGO.transform;
 	}
 	
 	void EnemyHasBeenDestroyed(EnemyHasBeenDestroyedEvent e)

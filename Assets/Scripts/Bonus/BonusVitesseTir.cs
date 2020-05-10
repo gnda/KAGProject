@@ -10,11 +10,11 @@ public class BonusVitesseTir : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Drone drone = collision.gameObject.GetComponentInParent<Drone>();
+        Drone.Drone drone = collision.gameObject.GetComponentInParent<Drone.Drone>();
         if (drone != null)
         {
             // temps = distance / vitesse
-            drone.ShotSpeed = Vitesse;
+            //drone.ShotSpeed = Vitesse;
             Destroy(gameObject);
         }
     }

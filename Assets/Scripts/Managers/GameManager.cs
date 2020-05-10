@@ -2,7 +2,7 @@
 using UnityEngine;
 using SDD.Events;
 using System.Linq;
-using Cinemachine;
+using UnityEngine.UI;
 
 public enum GameState
 {
@@ -232,16 +232,29 @@ public class GameManager : Manager<GameManager> {
 
 	#region Elements
 
+	public GameObject AllCameras
+	{
+		get { return GameObject.Find("Cameras"); }
+	}
+
 	public Camera MainCamera
 	{
-		get { return FindObjectOfType<Camera>(); }
+		get { return GameObject.FindGameObjectWithTag("MainCamera").
+			GetComponent<Camera>(); }
 	}
 	
-	public CinemachineVirtualCamera VirtualCamera
+	public RawImage MinimapBackground
 	{
-		get { return FindObjectOfType<CinemachineVirtualCamera>(); }
+		get { return GameObject.FindGameObjectsWithTag("MinimapCamera").
+			First(go => go.name == "Background").GetComponent<RawImage>(); }
 	}
 	
+	public Camera MinimapCamera
+	{
+		get { return GameObject.FindGameObjectsWithTag("MinimapCamera").
+			First(go => go.name == "MinimapCamera").GetComponent<Camera>(); }
+	}
+
 	public Player[] Players
 	{
 		get
@@ -256,6 +269,9 @@ public class GameManager : Manager<GameManager> {
 			return FindObjectsOfType<PlayerController>().Select(item=>item.transform).ToArray();
 		}
 	}
+	
+	public _3DCollision[] _3DCollisions => FindObjectsOfType<_3DCollision>();
+
 	public GameObject GetSelectedDrone()
 	{
 		playerDroneIndex = playerDroneIndex >= 0 ? playerDroneIndex % 

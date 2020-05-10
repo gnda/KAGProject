@@ -5,6 +5,7 @@
 [Bb]uilds/
 [Ll]ogs/
 Assets/AssetStoreTools*
+Assets/CVT2D
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
