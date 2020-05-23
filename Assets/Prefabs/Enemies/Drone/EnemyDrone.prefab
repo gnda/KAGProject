@@ -132,7 +132,7 @@ Transform:
   m_Children:
   - {fileID: 4541820666127416792}
   m_Father: {fileID: 5601389365228077288}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3122482605296602429
 MonoBehaviour:
@@ -176,7 +176,7 @@ GameObject:
   - component: {fileID: 5016778174369205235}
   m_Layer: 0
   m_Name: EnemyDrone
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -195,7 +195,6 @@ Transform:
   - {fileID: 3354602515482222820}
   - {fileID: 8071427147942708334}
   - {fileID: 9037382710021327805}
-  - {fileID: 6510356844291852856}
   - {fileID: 4262857586139590990}
   - {fileID: 7561523166735322254}
   - {fileID: 5598461215273950646}
@@ -286,9 +285,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   point: 5
-  pattern: {fileID: 5943895527922643515}
-  patternDuration: 40
-  followDuration: 100
+  pattern: {fileID: 0}
+  patternDuration: 20
+  followDuration: 50
 --- !u!114 &4878990919240454064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,77 +319,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.1}
   serializedVersion: 2
   m_Radius: 8
---- !u!1 &3634455332484858709
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6510356844291852856}
-  - component: {fileID: 5943895527922643515}
-  m_Layer: 0
-  m_Name: Pattern
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6510356844291852856
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3634455332484858709}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30, y: 15, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 5601389365228077288}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5943895527922643515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3634455332484858709}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c43250bf40e10e7458757a3377d8173a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  points:
-  - {x: -30, y: -15, z: 0}
-  - {x: -29.972387, y: -13.052337, z: 0}
-  - {x: -28.274193, y: -11.358043, z: 0}
-  - {x: -24.435858, y: -10.943833, z: 0}
-  - {x: -22.47527, y: -11.523726, z: 0}
-  - {x: -24.541134, y: -12.547163, z: 0}
-  - {x: -24.43068, y: -15.032415, z: 0}
-  - {x: -22.650522, y: -16.975964, z: 0}
-  - {x: -18.80262, y: -13.911976, z: 0}
-  - {x: -16.75919, y: -15.400449, z: 0}
-  - {x: -15.5165615, y: -16.86398, z: 0}
-  - {x: -14.349176, y: -19.289959, z: 0}
-  - {x: -16.72388, y: -20.148117, z: 0}
-  - {x: -18.575905, y: -20.65173, z: 0}
-  - {x: -22.834251, y: -20.720882, z: 0}
-  - {x: -25.92701, y: -19.671553, z: 0}
-  - {x: -27.743202, y: -19.022411, z: 0}
-  - {x: -29.719511, y: -17.229008, z: 0}
-  - {x: -30, y: -15, z: 0}
-  modes: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  splineSteps: 100
-  lockXAxis: 0
-  lockYAxis: 0
-  lockZAxis: 1
-  drawLines: 0
-  drawBezier: 0
-  linesMaterial: {fileID: 0}
 --- !u!1 &4998103258424443732
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,7 +612,7 @@ Transform:
   m_Children:
   - {fileID: 1771174002836310310}
   m_Father: {fileID: 5601389365228077288}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2969889158905916347
 MonoBehaviour:
@@ -739,7 +667,7 @@ Transform:
   m_Children:
   - {fileID: 5046133248222113264}
   m_Father: {fileID: 5601389365228077288}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &893644107896906132
 MonoBehaviour:
@@ -827,7 +755,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 65332defe09138f4093575e288a904bc, type: 2}
+  - {fileID: 2100000, guid: b37877c8f16c21346bc0242055eca7e0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1373,8 +1301,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa6c725fb2ffdd44e906d01216cefa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootSpeed: 10
-  shootDelay: 0.5
+  shootSpeed: 30
+  shootDelay: 0.3
   bulletPrefab: {fileID: 8613115151589063148, guid: df9f8f0e221d26241b59d6bc08808c0f,
     type: 3}
 --- !u!1 &7355992686583561288

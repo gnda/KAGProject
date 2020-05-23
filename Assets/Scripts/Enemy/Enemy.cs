@@ -2,11 +2,12 @@
 using System.Collections;
 using Spline;
 using UnityEngine;
+using Random = System.Random;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private int point;
-    [SerializeField] private BezierSpline pattern;
+    [SerializeField] public BezierSpline pattern;
     [SerializeField] private float patternDuration = 40;
     [SerializeField] private float followDuration = 200;
 
@@ -35,6 +36,14 @@ public class Enemy : MonoBehaviour
         }
     }**/
 
+    private void Awake()
+    {
+        foreach (var e in GameManager.Instance.Enemies)
+        {
+            Physics.IgnoreCollision(e.GetComponentInChildren<Collider>(), GetComponentInChildren<Collider>());
+        }
+    }
+
     private void Start()
     {
         _spawnPos = transform.position;
@@ -42,8 +51,7 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(_isMoving);
-        if (!_isMoving)
+        if (!_isMoving && pattern != null)
             _currentCoroutine = StartCoroutine(FollowPatternCorourtine());
     }
 
@@ -51,6 +59,7 @@ public class Enemy : MonoBehaviour
     {
         _isMoving = true;
 
+        var rotatable = GetComponentInChildren<Rotatable>();
         var elapsedTime = 0f;
         transform.position = pattern.GetPoint(elapsedTime);
         
@@ -63,7 +72,8 @@ public class Enemy : MonoBehaviour
             // We look at a further point in time (here 5% of moveDuration)
             var nextPoint = pattern.GetPoint(
                 ((elapsedTime + (patternDuration * 0.05f)) / patternDuration) % 1);
-            LookAtPosition(nextPoint);
+            //LookAtPosition(nextPoint);
+            rotatable.Rotate(nextPoint);
             
             yield return null;
         }
@@ -84,25 +94,11 @@ public class Enemy : MonoBehaviour
         transf.up = direction;
     }
 
-    private void LookAtTarget(Transform target)
-    {
-        Transform transf = transform;
-        Vector3 pos = transf.position;
-
-        Vector3 targetPosition = target.transform.position;
-            
-        Vector2 direction = new Vector2(
-            targetPosition.x - pos.x,
-            targetPosition.y - pos.y
-        );
-
-        transf.up = direction;
-    }
-    
     IEnumerator FollowTargetCoroutine(Vector3 targetPos)
     {
         _isMoving = true;
 
+        var rotatable = GetComponentInChildren<Rotatable>();
         var endPos = targetPos;
         var elapsedTime = 0f;
 
@@ -115,7 +111,8 @@ public class Enemy : MonoBehaviour
             var nextPoint = Vector3.Lerp(transform.position, endPos,
                 ((elapsedTime + (followDuration * 0.05f)) / followDuration) % 1);
 
-            LookAtPosition(nextPoint);
+            //LookAtPosition(nextPoint);
+            rotatable.Rotate(nextPoint);
             
             yield return null;
         }
@@ -138,6 +135,7 @@ public class Enemy : MonoBehaviour
 
             if (shooter != null)
             {
+                shooter.LookAt(playerPos);
                 shooter.Shoot(playerPos);    
             }
             
@@ -178,6 +176,18 @@ public class Enemy : MonoBehaviour
             
             _currentCoroutine = 
                 StartCoroutine(FollowTargetCoroutine(_spawnPos));
+        }
+    }
+
+    private void OnDestroy()
+    {
+        var spawnBonusProba = UnityEngine.Random.Range(0, 10);
+
+        if (spawnBonusProba > 5)
+        {
+            var bonuses = GameManager.Instance.BonusPrefabs;
+            Instantiate(bonuses[UnityEngine.Random.Range(0, bonuses.Length)], 
+                transform.position, Quaternion.identity);
         }
     }
 }

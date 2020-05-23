@@ -5,6 +5,9 @@ public class GameMenuEvent : SDD.Events.Event
 public class GamePlayEvent : SDD.Events.Event
 {
 }
+public class GameInstructionsEvent : SDD.Events.Event
+{
+}
 public class GamePauseEvent : SDD.Events.Event
 {
 }
@@ -42,6 +45,9 @@ public class NextLevelButtonClickedEvent : SDD.Events.Event
 {
 }
 public class PlayButtonClickedEvent : SDD.Events.Event
+{
+}
+public class InstructionsButtonClickedEvent : SDD.Events.Event
 {
 }
 public class ResumeButtonClickedEvent : SDD.Events.Event

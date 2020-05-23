@@ -88,7 +88,15 @@ public class PlayerController : SimpleGameStateObserver
 			EventManager.Instance.Raise(new PlayerHasBeenHitEvent());
 		}
 	}
-	
+
+	protected override void OnDestroy()
+	{
+		if (GameManager.Instance.IsPlaying)
+		{
+			EventManager.Instance.Raise(new GameOverEvent());
+		}
+	}
+
 	//Game state events
 	protected override void GameMenu(GameMenuEvent e)
 	{

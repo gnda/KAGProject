@@ -17,6 +17,7 @@ public enum GameState
 
 public class GameManager : Manager<GameManager> {
 	[Header(("GeneralPrefabs"))]
+	[SerializeField] public GameObject[] BonusPrefabs;
 	[SerializeField] public GameObject[] DronePrefabs;
 	private int playerDroneIndex = 0;
 	
@@ -28,6 +29,7 @@ public class GameManager : Manager<GameManager> {
 		//MainMenuManager
 		EventManager.Instance.AddListener<MainMenuButtonClickedEvent>(MainMenuButtonClicked);
 		EventManager.Instance.AddListener<PlayButtonClickedEvent>(PlayButtonClicked);
+		EventManager.Instance.AddListener<InstructionsButtonClickedEvent>(InstructionsButtonClicked);
 		EventManager.Instance.AddListener<NextLevelButtonClickedEvent>(NextLevelButtonClicked);
 		EventManager.Instance.AddListener<ResumeButtonClickedEvent>(ResumeButtonClicked);
 		EventManager.Instance.AddListener<EscapeButtonClickedEvent>(EscapeButtonClicked);
@@ -57,6 +59,7 @@ public class GameManager : Manager<GameManager> {
 		//MainMenuManager
 		EventManager.Instance.RemoveListener<MainMenuButtonClickedEvent>(MainMenuButtonClicked);
 		EventManager.Instance.RemoveListener<PlayButtonClickedEvent>(PlayButtonClicked);
+		EventManager.Instance.RemoveListener<InstructionsButtonClickedEvent>(InstructionsButtonClicked);
 		EventManager.Instance.RemoveListener<NextLevelButtonClickedEvent>(NextLevelButtonClicked);
 		EventManager.Instance.RemoveListener<ResumeButtonClickedEvent>(ResumeButtonClicked);
 		EventManager.Instance.RemoveListener<EscapeButtonClickedEvent>(EscapeButtonClicked);
@@ -262,6 +265,15 @@ public class GameManager : Manager<GameManager> {
 			return FindObjectsOfType<Player>();
 		}
 	}
+	
+	public Enemy[] Enemies
+	{
+		get
+		{
+			return FindObjectsOfType<Enemy>();
+		}
+	}
+	
 	public Transform[] PlayerTransforms
 	{
 		get
@@ -346,6 +358,11 @@ public class GameManager : Manager<GameManager> {
 	{
 		Play(0);
 	}
+	
+	private void InstructionsButtonClicked(InstructionsButtonClickedEvent e)
+	{
+		Instructions();
+	}
 
 	private void NextLevelButtonClicked(NextLevelButtonClickedEvent e)
 	{
@@ -379,16 +396,22 @@ public class GameManager : Manager<GameManager> {
 	{
 		SetTimeScale(0);
 		m_GameState = GameState.gameMenu;
-		//MusicLoopsManager.Instance.PlayMusic(Constants.MENU_MUSIC);
+		MusicLoopsManager.Instance.PlayMusic(Constants.MENU_MUSIC);
 		EventManager.Instance.Raise(new GameMenuEvent());
 	}
 
 	private void Play(int levelNumber)
 	{
 		m_GameState = GameState.gamePlay;
-		//MusicLoopsManager.Instance.PlayMusic(Constants.GAMEPLAY_MUSIC);
+		MusicLoopsManager.Instance.PlayMusic(levelNumber + 1);
 		EventManager.Instance.Raise(new GamePlayEvent());
 		InitNewGame(levelNumber);
+	}
+	
+	private void Instructions()
+	{
+		SetTimeScale(0);
+		EventManager.Instance.Raise(new GameInstructionsEvent());
 	}
 
 	private void Pause()

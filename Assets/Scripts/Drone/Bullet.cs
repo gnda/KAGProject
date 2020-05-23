@@ -24,6 +24,11 @@ namespace Drone
                 {
                     Physics.IgnoreCollision(col.GetComponent<Collider>(), GetComponent<Collider>());
                 }
+
+                if (_origin.GetComponent<Enemy>() != null)
+                {
+                    Destroy(GetComponent<CanScratch>());
+                }
             }
         }
 

@@ -1,5 +1,63 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1655988760203833216
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7355683531486211109}
+  - component: {fileID: 3721196302260231801}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7355683531486211109
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1655988760203833216}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3085524484525545769}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3721196302260231801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1655988760203833216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c43250bf40e10e7458757a3377d8173a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  points:
+  - {x: 2.8798203, y: -1.4285713, z: 0}
+  - {x: 0.43083927, y: 1.7006803, z: 0}
+  - {x: 6.9161005, y: 2.4716556, z: 0}
+  - {x: 7.777779, y: -0.52154183, z: 0}
+  - {x: 6.0090704, y: -1.38322, z: 0}
+  - {x: 3.6961439, y: -1.6553289, z: 0}
+  modes: 00000000000000000000000000000000
+  splineSteps: 20
+  lockXAxis: 0
+  lockYAxis: 0
+  lockZAxis: 1
+  drawLines: 1
+  drawBezier: 0
+  linesMaterial: {fileID: 0}
 --- !u!1 &3085524483634728033
 GameObject:
   m_ObjectHideFlags: 0
@@ -43,8 +101,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c43250bf40e10e7458757a3377d8173a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  points: []
-  modes: 00000000
+  points:
+  - {x: -4.285715, y: -2.8798187, z: 0}
+  - {x: -5.0113378, y: 3.0612242, z: 0}
+  - {x: 3.9229014, y: 6.0544214, z: 0}
+  - {x: 12.403629, y: 4.6938777, z: 0}
+  - {x: 12.312926, y: -2.92517, z: 0}
+  - {x: 1.7913843, y: -5.1473923, z: 0}
+  - {x: 1.5646268, y: -5.1473923, z: 0}
+  - {x: -3.8775518, y: -3.4240365, z: 0}
+  modes: 0000000000000000000000000000000000000000
   splineSteps: 20
   lockXAxis: 0
   lockYAxis: 0
@@ -102,7 +168,8 @@ MonoBehaviour:
   uvScale: 0.5
   useControlPoints: 1
   RegenerateMesh: 1
-  processNumber: 1
+  OverwriteCVTOutput: 0
+  processNumber: 40
   generatorNumber: 20
   iterationNumber: 10
   perimeterTolerancePercentage: 30
@@ -134,6 +201,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3085524483634728032}
+  - {fileID: 7355683531486211109}
   m_Father: {fileID: 3085524483803458847}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -10,14 +10,15 @@ public class MenuManager : Manager<MenuManager> {
 	#region Panels
 	[Header("Panels")]
 	[SerializeField] GameObject m_PanelMainMenu;
+	[SerializeField] GameObject m_PanelInstructions;
 	[SerializeField] GameObject m_PanelInGameMenu;
 	[SerializeField] GameObject m_PanelNextLevel;
 	[SerializeField] GameObject m_PanelVictory;
 	[SerializeField] GameObject m_PanelGameOver;
 	[SerializeField] GameObject m_PanelCredits;
 
-	[Header("Settings")]
-	[SerializeField] float creditsDuration;
+	//[Header("Settings")]
+	//[SerializeField] float creditsDuration;
 	
 	List<GameObject> m_AllPanels;
 	#endregion
@@ -85,6 +86,7 @@ public class MenuManager : Manager<MenuManager> {
 	{
 		m_AllPanels = new List<GameObject>();
 		m_AllPanels.Add(m_PanelMainMenu);
+		m_AllPanels.Add(m_PanelInstructions);
 		m_AllPanels.Add(m_PanelInGameMenu);
 		m_AllPanels.Add(m_PanelNextLevel);
 		m_AllPanels.Add(m_PanelVictory);
@@ -108,6 +110,11 @@ public class MenuManager : Manager<MenuManager> {
 	public void PlayButtonHasBeenClicked()
 	{
 		EventManager.Instance.Raise(new PlayButtonClickedEvent());
+	}
+	
+	public void InstructionsButtonHasBeenClicked()
+	{
+		EventManager.Instance.Raise(new InstructionsButtonClickedEvent());
 	}
 
 	public void ResumeButtonHasBeenClicked()
@@ -157,6 +164,11 @@ public class MenuManager : Manager<MenuManager> {
 		OpenPanel(null);
 	}
 
+	protected override void GameInstructions(GameInstructionsEvent e)
+	{
+		OpenPanel(m_PanelInstructions);
+	}
+
 	protected override void GamePause(GamePauseEvent e)
 	{
 		OpenPanel(m_PanelInGameMenu);
@@ -180,7 +192,7 @@ public class MenuManager : Manager<MenuManager> {
 	protected override void GameCredits(GameCreditsEvent e)
 	{
 		OpenPanel(m_PanelCredits);
-		StartCoroutine(GoBackToMainMenuCoroutine(creditsDuration));
+		//StartCoroutine(GoBackToMainMenuCoroutine(creditsDuration));
 	}
 	#endregion
 }

@@ -7,7 +7,7 @@ public class Shooter : MonoBehaviour
 {
     [SerializeField] private float shootSpeed = 12f;
     [SerializeField] private float shootDelay = 0.5f;
-    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] public GameObject bulletPrefab;
     
     private Transform originateFrom;
 
@@ -16,6 +16,19 @@ public class Shooter : MonoBehaviour
     private void Start()
     {
         originateFrom = GetComponentInParent<CanShoot>().transform;
+    }
+    
+    public void LookAt(Vector3 position)
+    {
+        Transform transf = transform;
+        Vector3 pos = transf.position;
+
+        Vector2 direction = new Vector2(
+            position.x - pos.x,
+            position.y - pos.y
+        );
+
+        transf.up = direction;
     }
 
     public void Shoot(Vector2 towards)

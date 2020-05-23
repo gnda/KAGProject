@@ -1,4 +1,4 @@
 # KAGProject
 
 ## Requirements
-Unity 2019.2.9f1
+Unity 2020.1.0b8
