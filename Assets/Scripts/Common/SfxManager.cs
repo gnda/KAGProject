@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 [System.Serializable]
 public class MyAudioClip
 {
-	public MyAudioClip(AudioClip clip,float volume)
+	public MyAudioClip(AudioClip clip,float volume = 0.2f)
 	{
 		this.clip = clip;
 		this.volume = volume;
@@ -25,8 +25,9 @@ public class MyAudioClip
 public class SfxManager : Singleton<SfxManager> {
 
 	[Header("SfxManager")]
-	[SerializeField] TextAsset m_SfxXmlSetup;
-	[SerializeField] string m_ResourcesFolderName;
+	[SerializeField] List<AudioClip> m_Clips = new List<AudioClip>();
+	//[SerializeField] TextAsset m_SfxXmlSetup;
+	//[SerializeField] string m_ResourcesFolderName;
 
 	[SerializeField] int m_NAudioSources = 2;
 
@@ -49,19 +50,24 @@ public class SfxManager : Singleton<SfxManager> {
 	// Use this for initialization
 	void Start () {
 
-		XmlDocument xmlDoc = new XmlDocument();
-		xmlDoc.LoadXml(m_SfxXmlSetup.text);
+		//XmlDocument xmlDoc = new XmlDocument();
+		//xmlDoc.LoadXml(m_SfxXmlSetup.text);
 
-		foreach(XmlNode node in xmlDoc.GetElementsByTagName("SFX"))
+
+		foreach (var clip in m_Clips)
+		{
+			m_DicoAudioClips.Add(clip.name, new MyAudioClip(clip, 1));
+		}
+		/*foreach(XmlNode node in xmlDoc.GetElementsByTagName("SFX"))
 		{
 			if(node.NodeType!= XmlNodeType.Comment)
-
+			Debug.Log(m_ResourcesFolderName+"/"+node.Attributes["name"].Value);
 			m_DicoAudioClips.Add(
 				node.Attributes["name"].Value,
 			    new MyAudioClip(
 				(AudioClip)Resources.Load(m_ResourcesFolderName+"/"+node.Attributes["name"].Value,typeof(AudioClip)),
 				float.Parse(node.Attributes["volume"].Value)));
-		}
+		}*/
 
 		for (int i = 0; i < m_NAudioSources; i++) 
 			AddAudioSource();
@@ -83,6 +89,13 @@ public class SfxManager : Singleton<SfxManager> {
 		if(audioSource) 
 			audioSource.PlayOneShot(audioClip.clip,audioClip.volume);
 
+	}
+
+	public void Play(MyAudioClip sound)
+	{
+		AudioSource audioSource = m_AudioSources.Find(item=>!item.isPlaying);
+		if(audioSource != null && sound != null)
+			audioSource.PlayOneShot(sound.clip,sound.volume);
 	}
 
 	void OnGUI()

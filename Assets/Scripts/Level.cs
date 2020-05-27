@@ -2,6 +2,7 @@
 using UnityEngine;
 using SDD.Events;
 using System.Linq;
+using TMPro;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using IEventHandler = SDD.Events.IEventHandler;
@@ -10,8 +11,7 @@ public class Level : MonoBehaviour,IEventHandler
 {
 
 	[SerializeField] private Transform playerSpawnPosition;
-	[SerializeField] private Color backgroundColor;
-	
+	[SerializeField] public float timeLimit;
 	List<Enemy> m_Enemies = new List<Enemy>();
 
 	public void SubscribeEvents()
@@ -52,12 +52,6 @@ public class Level : MonoBehaviour,IEventHandler
 		droneGO.AddComponent<Player>();
 
 		Camera mainCamera = GameManager.Instance.MainCamera;
-		mainCamera.backgroundColor = backgroundColor;
-		
-		RawImage minimapBackground = GameManager.Instance.MinimapBackground;
-		Camera minimapCamera = GameManager.Instance.MinimapCamera;
-		minimapCamera.backgroundColor = backgroundColor;
-		minimapBackground.color = backgroundColor + new Color() {a = 1f};
 
 		GameObject allCameras = GameManager.Instance.AllCameras;
 		allCameras.GetComponent<Follow>().targetTransform = droneGO.transform;

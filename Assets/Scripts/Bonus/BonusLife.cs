@@ -11,8 +11,7 @@ public class BonusLife : MonoBehaviour
         Player player = collision.gameObject.GetComponentInParent<Player>();
         if (player != null)
         {
-            player.addLife(m_lifes);
-            Destroy(gameObject);
+            player.GetComponent<Explodable>().Life += m_lifes;
         }
     }
 }

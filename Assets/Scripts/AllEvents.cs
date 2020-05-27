@@ -96,6 +96,9 @@ public class FuelItemEvent : SDD.Events.Event
 public class AskToGoToNextLevelEvent : SDD.Events.Event
 {
 }
+public class TriggerGameVictoryEvent : SDD.Events.Event
+{
+}
 public class GoToNextLevelEvent : SDD.Events.Event
 {
 	public int eLevelIndex;
@@ -112,6 +115,10 @@ public class AllEnemiesOfLevelHaveBeenDestroyedEvent : SDD.Events.Event
 public class LevelHasBeenInstantiatedEvent : SDD.Events.Event
 {
 	public Level eLevel;
+}
+
+public class RevealExitEvent : SDD.Events.Event
+{
 }
 #endregion
 

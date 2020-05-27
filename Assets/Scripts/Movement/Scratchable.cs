@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Drone;
 using UnityEngine;
 
 public class Scratchable : MonoBehaviour
@@ -8,6 +9,12 @@ public class Scratchable : MonoBehaviour
     {
         if (other.transform.GetComponent<CanScratch>() != null)
         {
+            var bullet = other.transform.GetComponentInParent<Bullet>();
+
+            if (bullet != null)
+            {
+                bullet.Explode();
+            }
             HandleTriangleDestruction(other);
         }
     }
@@ -16,6 +23,12 @@ public class Scratchable : MonoBehaviour
     {
         if (other.transform.GetComponent<CanScratch>() != null)
         {
+            var bullet = other.transform.GetComponentInParent<Bullet>();
+
+            if (bullet != null)
+            {
+                bullet.Explode();
+            }
             HandleTriangleDestruction(other);
         }
     }

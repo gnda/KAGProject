@@ -2,165 +2,168 @@
 using System.Collections;
 using Spline;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Random = System.Random;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private int point;
-    [SerializeField] public BezierSpline pattern;
-    [SerializeField] private float patternDuration = 40;
-    [SerializeField] private float followDuration = 200;
+    [SerializeField] private int points;
+    public BezierSpline pattern;
+    public float patternDuration = 10;
+    public int loopTimes = 1;
+    [SerializeField] private float goingBackDuration = 20;
+    [SerializeField] private float followSpeed = 20;
+    [SerializeField] private float distanceFromTarget = 0;
+    [SerializeField] private bool canMove = true;
+    
+    private Vector3 _lastPos, _targetPos;
+    private Quaternion _spawnRot;
+    private bool _isFollowingTarget, _isFollowingPattern, _isGoingBack;
 
-    private Vector3 _spawnPos;
-    private bool _isMoving;
-    private Coroutine _currentCoroutine;
-
-    /**
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        Bullet bullet = other.gameObject.GetComponent<Bullet>();
-        if (bullet != null)
-        {
-            Vector3 startPos = other.transform.position;
-
-            Vector3 endPos = startPos + (Vector3)bullet.GetComponent<Rigidbody2D>().velocity.normalized;
-
-            Player player = bullet.Origin.GetComponentInParent<Player>();
-            Drone drone = bullet.Origin.GetComponentInParent<Drone>();
-            if (player != null)
-            {
-                player.Score += this.Point;
-                //Explose();
-                Destroy(gameObject);
-            }
-        }
-    }**/
+    private Rotatable _rotatable;
+    private Shooter[] _shooters;
+    private float patternTimer, goingBackTimer;
+    private int currentLoopTimes;
 
     private void Awake()
     {
         foreach (var e in GameManager.Instance.Enemies)
         {
-            Physics.IgnoreCollision(e.GetComponentInChildren<Collider>(), GetComponentInChildren<Collider>());
+            foreach (var col in e.GetComponents<Collider2D>())
+            {
+                Physics2D.IgnoreCollision(col, GetComponent<Collider2D>());
+            }
+            
+            foreach (var col in e.GetComponentsInChildren<Collider2D>())
+            {
+                Physics2D.IgnoreCollision(col, GetComponent<Collider2D>());
+            }
         }
     }
 
     private void Start()
     {
-        _spawnPos = transform.position;
-    }
-
-    private void FixedUpdate()
-    {
-        if (!_isMoving && pattern != null)
-            _currentCoroutine = StartCoroutine(FollowPatternCorourtine());
-    }
-
-    IEnumerator FollowPatternCorourtine()
-    {
-        _isMoving = true;
-
-        var rotatable = GetComponentInChildren<Rotatable>();
-        var elapsedTime = 0f;
-        transform.position = pattern.GetPoint(elapsedTime);
+        _rotatable = GetComponentInChildren<Rotatable>();
+        _shooters = GetComponentsInChildren<Shooter>();
         
-        while (elapsedTime <= patternDuration)
+        if (pattern != null)
         {
-            elapsedTime += Time.fixedDeltaTime;
-            var point = pattern.GetPoint(elapsedTime / patternDuration);
+            _isFollowingPattern = true;
+        }
+
+        _spawnRot = transform.rotation;
+    }
+
+    private void Update()
+    {
+        if (currentLoopTimes >= loopTimes)
+        {
+            Destroy(gameObject);
+        }
+        if (_isFollowingPattern && canMove)
+        {
+            FollowPattern();
+        }
+        else if (_isGoingBack && canMove)
+        {
+            GoBack();
+        } 
+        else if (_isFollowingTarget)
+        {
+            FollowTarget();
+        }
+    }
+
+    private void FollowPattern()
+    {
+        patternTimer += Time.deltaTime;
+        if (patternTimer > patternDuration)
+        {
+            patternTimer = 0;
+            transform.position = pattern.GetPoint(0);
+            transform.rotation = _spawnRot;
+            currentLoopTimes++;
+        }
+        else
+        {
+            float timePerc = patternTimer / patternDuration;
+            var point = pattern.GetPoint(timePerc);
             transform.position = point;
-            
-            // We look at a further point in time (here 5% of moveDuration)
+                
             var nextPoint = pattern.GetPoint(
-                ((elapsedTime + (patternDuration * 0.05f)) / patternDuration) % 1);
-            //LookAtPosition(nextPoint);
-            rotatable.Rotate(nextPoint);
-            
-            yield return null;
-        }
+                ((patternTimer + (patternDuration * 0.05f)) / patternDuration) % 1);
 
-        yield return _isMoving = false;
-    }
-    
-    private void LookAtPosition(Vector3 targetPosition)
-    {
-        Transform transf = transform;
-        Vector3 pos = transf.position;
-
-        Vector2 direction = new Vector2(
-            targetPosition.x - pos.x,
-            targetPosition.y - pos.y
-        );
-
-        transf.up = direction;
-    }
-
-    IEnumerator FollowTargetCoroutine(Vector3 targetPos)
-    {
-        _isMoving = true;
-
-        var rotatable = GetComponentInChildren<Rotatable>();
-        var endPos = targetPos;
-        var elapsedTime = 0f;
-
-        while (elapsedTime <= followDuration)
-        {
-            elapsedTime += Time.fixedDeltaTime;
-            transform.position = Vector3.Lerp(transform.position, endPos, elapsedTime / followDuration);
-            
-            // We look at a further point in time (here 5% of moveDuration)
-            var nextPoint = Vector3.Lerp(transform.position, endPos,
-                ((elapsedTime + (followDuration * 0.05f)) / followDuration) % 1);
-
-            //LookAtPosition(nextPoint);
-            rotatable.Rotate(nextPoint);
-            
-            yield return null;
-        }
-
-        yield return _isMoving = false;
-    }
-    
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.GetComponent<Player>() != null)
-        {
-            if (_currentCoroutine != null)
+            if (_rotatable)
             {
-                StopCoroutine(_currentCoroutine);
-                _isMoving = false;
+                _rotatable.Rotate(nextPoint);
             }
-            
-            var playerPos = other.transform.position;
-            var shooter = GetComponentInChildren<Shooter>();
+        }
+    }
 
-            if (shooter != null)
-            {
-                shooter.LookAt(playerPos);
-                shooter.Shoot(playerPos);    
-            }
+    private void GoBack()
+    {
+        float patternTimePerc = patternTimer / patternDuration;
+        var point = pattern.GetPoint(patternTimePerc);
+        
+        goingBackTimer += Time.deltaTime;
+        if (goingBackTimer > goingBackDuration)
+        {
+            goingBackTimer = 0;
+            transform.position = point;
+            transform.rotation = _spawnRot;
+            _isGoingBack = false;
+            _isFollowingPattern = true;
+        }
+        else
+        {
+            float timePerc = goingBackTimer / goingBackDuration;
             
-            _currentCoroutine = 
-                StartCoroutine(FollowTargetCoroutine(playerPos));
+            transform.position = Vector3.Lerp(_lastPos, point, timePerc);
+            
+            if (_rotatable)
+            {
+                _rotatable.Rotate(point);
+            }
         }
     }
     
+    private void FollowTarget()
+    {
+        if (_shooters != null)
+        {
+            foreach (var s in _shooters)
+            {
+                s.LookAt(_targetPos);
+                s.Shoot(_targetPos);  
+            }
+        }
+
+        if (_rotatable)
+        {
+            _rotatable.Rotate(_targetPos);
+        }
+
+        if (canMove)
+        {
+            if (Vector3.Distance(transform.position, _targetPos) > distanceFromTarget)
+            {
+                transform.position = 
+                    Vector2.MoveTowards(transform.position, _targetPos, 
+                        followSpeed * Time.deltaTime);                    
+            }
+        }
+    }
+
     private void OnTriggerStay2D(Collider2D other)
     {
         if (other.gameObject.GetComponent<Player>() != null)
         {
-            var playerPos = other.transform.position;
-            var shooter = GetComponentInChildren<Shooter>();
-
-            if (shooter != null)
-            {
-                shooter.Shoot(playerPos);    
-            }
+            _isFollowingPattern = false;
+            _isGoingBack = false;
+            goingBackTimer = 0;
             
-            if (!_isMoving)
-            {
-                _currentCoroutine = 
-                    StartCoroutine(FollowTargetCoroutine(playerPos));
-            }
+            _targetPos = other.transform.position;
+            _isFollowingTarget = true;
         }
     }
     
@@ -168,26 +171,13 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Player>() != null)
         {
-            if (_currentCoroutine != null)
-            {
-                StopCoroutine(_currentCoroutine);
-                _isMoving = false;
-            }
+            _lastPos = transform.position;
             
-            _currentCoroutine = 
-                StartCoroutine(FollowTargetCoroutine(_spawnPos));
-        }
-    }
-
-    private void OnDestroy()
-    {
-        var spawnBonusProba = UnityEngine.Random.Range(0, 10);
-
-        if (spawnBonusProba > 5)
-        {
-            var bonuses = GameManager.Instance.BonusPrefabs;
-            Instantiate(bonuses[UnityEngine.Random.Range(0, bonuses.Length)], 
-                transform.position, Quaternion.identity);
+            if (canMove && pattern != null)
+            {
+                _isGoingBack = true;
+            }
+            _isFollowingTarget = false;
         }
     }
 }

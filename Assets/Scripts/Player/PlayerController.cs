@@ -16,11 +16,6 @@ public class PlayerController : SimpleGameStateObserver
 		_shooter = GetComponentInChildren<Shooter>();
 	}
 
-	private void Reset()
-	{
-		transform.rotation = Quaternion.identity;
-	}
-
 	// Update is called once per frame
 	void FixedUpdate() {
 		if (GameManager.Instance && !GameManager.Instance.IsPlaying) return;
@@ -87,19 +82,5 @@ public class PlayerController : SimpleGameStateObserver
 		{
 			EventManager.Instance.Raise(new PlayerHasBeenHitEvent());
 		}
-	}
-
-	protected override void OnDestroy()
-	{
-		if (GameManager.Instance.IsPlaying)
-		{
-			EventManager.Instance.Raise(new GameOverEvent());
-		}
-	}
-
-	//Game state events
-	protected override void GameMenu(GameMenuEvent e)
-	{
-		Reset();
 	}
 }

@@ -1,21 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BonusVitesseTir : MonoBehaviour
 {
-    [SerializeField] private float m_vitesse = 2.2f;
+    [SerializeField] private float m_vitesse = 0.05f;
 
-    public float Vitesse { get => m_vitesse; set => m_vitesse = value; }
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        Drone.Drone drone = collision.gameObject.GetComponentInParent<Drone.Drone>();
-        if (drone != null)
+        var player = collider.transform.GetComponentInParent<Player>();
+        if (player != null)
         {
-            // temps = distance / vitesse
-            //drone.ShotSpeed = Vitesse;
-            Destroy(gameObject);
+            player.GetComponentInChildren<Shooter>().shootDelay = m_vitesse;
         }
     }
 }

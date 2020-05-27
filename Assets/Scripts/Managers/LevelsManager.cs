@@ -3,16 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SDD.Events;
+using Event = SDD.Events.Event;
 
 public class LevelsManager : Manager<LevelsManager> {
 
 	[Header("LevelsManager")]
 	#region levels & current level management
 	[SerializeField] GameObject[] m_LevelsPrefabs;
-	private int m_CurrentLevelIndex;
+	public int mCurrentLevelIndex;
 	private GameObject m_CurrentLevelGO;
-	private Level m_CurrentLevel;
-	public Level CurrentLevel { get { return m_CurrentLevel; } }
+	public Level CurrentLevel { get; set; }
 
 	#endregion
 
@@ -28,12 +28,14 @@ public class LevelsManager : Manager<LevelsManager> {
 	{
 		base.SubscribeEvents();
 		EventManager.Instance.AddListener<GoToNextLevelEvent>(GoToNextLevel);
+		EventManager.Instance.AddListener<RevealExitEvent>(RevealExit);
 }
 
 	public override void UnsubscribeEvents()
 	{
 		base.UnsubscribeEvents();
 		EventManager.Instance.RemoveListener<GoToNextLevelEvent>(GoToNextLevel);
+		EventManager.Instance.RemoveListener<RevealExitEvent>(RevealExit);
 	}
 	#endregion
 
@@ -42,14 +44,14 @@ public class LevelsManager : Manager<LevelsManager> {
 	{
 		Destroy(m_CurrentLevelGO);
 		m_CurrentLevelGO = null;
-		m_CurrentLevelIndex = -1;
+		mCurrentLevelIndex = -1;
 	}
 
 	void InstantiateLevel(int levelIndex)
 	{
 		levelIndex = Mathf.Max(levelIndex, 0) % m_LevelsPrefabs.Length;
 		m_CurrentLevelGO = Instantiate(m_LevelsPrefabs[levelIndex]);
-		m_CurrentLevel = m_CurrentLevelGO.GetComponent<Level>();
+		CurrentLevel = m_CurrentLevelGO.GetComponent<Level>();
 	}
 
 	private IEnumerator GoToNextLevelCoroutine()
@@ -57,9 +59,10 @@ public class LevelsManager : Manager<LevelsManager> {
 		Destroy(m_CurrentLevelGO);
 		while (m_CurrentLevelGO) yield return null;
 
-		InstantiateLevel(m_CurrentLevelIndex);
+		InstantiateLevel(mCurrentLevelIndex);
+		MusicLoopsManager.Instance.PlayMusic(mCurrentLevelIndex + 1);
 
-		EventManager.Instance.Raise(new LevelHasBeenInstantiatedEvent() { eLevel = m_CurrentLevel });
+		EventManager.Instance.Raise(new LevelHasBeenInstantiatedEvent() {eLevel = CurrentLevel});
 	}
 	#endregion
 
@@ -73,10 +76,25 @@ public class LevelsManager : Manager<LevelsManager> {
 		Reset();
 	}
 
-	public void GoToNextLevel(GoToNextLevelEvent e)
+	private void GoToNextLevel(GoToNextLevelEvent e)
 	{
-		m_CurrentLevelIndex++;
-		StartCoroutine(GoToNextLevelCoroutine());
+		mCurrentLevelIndex++;
+		if (mCurrentLevelIndex > m_LevelsPrefabs.Length - 1)
+		{
+			EventManager.Instance.Raise(new TriggerGameVictoryEvent());
+		}
+		else
+		{
+			StartCoroutine(GoToNextLevelCoroutine());
+		}
+	}
+
+	private void RevealExit(RevealExitEvent e)
+	{
+		m_CurrentLevelGO.transform.
+			GetComponentInChildren<Exit>(true).gameObject.SetActive(true);
+		var messages = CurrentLevel.GetComponentInChildren<Messages>();
+		messages.transform.Find("Exit").gameObject.SetActive(true);
 	}
 	#endregion
 }

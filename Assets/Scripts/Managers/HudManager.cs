@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Drone;
 using SDD.Events;
 using UnityEngine;
@@ -12,11 +13,10 @@ public class HudManager : Manager<HudManager>
     [SerializeField] private GameObject panelHUD;
     
     [Header("Texts")]
-    [SerializeField] private Text m_TxtBestScore;
     [SerializeField] private Text m_TxtScore;
     [SerializeField] private Text m_TxtNLives;
-    [SerializeField] private Text m_TxtNEnemiesLeftBeforeVictory;
-    [SerializeField] private Text m_TxtFuel;
+    [SerializeField] private Text m_TxtTime;
+    [SerializeField] public GameObject m_TxtAddPoints;
     #endregion
 
     #region Manager implementation
@@ -33,8 +33,10 @@ public class HudManager : Manager<HudManager>
         if (GameManager.Instance.IsPlaying && GameManager.Instance.Players.Length > 0)
         {
             m_TxtScore.text = GameManager.Instance.Players[0].Score.ToString();
-            m_TxtFuel.text = GameManager.Instance.Players[0].gameObject.GetComponent<FuelTank>().Fuel.ToString();
-            m_TxtNLives.text = GameManager.Instance.Players[0].Life.ToString();
+            m_TxtNLives.text = GameManager.Instance.Players[0].GetComponent<Explodable>().Life.ToString();
+            m_TxtTime.text = new DateTime(
+                    (long)(GameManager.Instance.Timer * TimeSpan.TicksPerSecond))
+                .ToString("mm:ss:ff");
         }
     }
     #endregion
@@ -42,11 +44,8 @@ public class HudManager : Manager<HudManager>
     #region Callbacks to GameManager events
     protected override void GameStatisticsChanged(GameStatisticsChangedEvent e)
     {
-        m_TxtBestScore.text = e.eBestScore.ToString();
         m_TxtScore.text = e.eScore.ToString();
         m_TxtNLives.text = e.eNLives.ToString();
-        m_TxtNEnemiesLeftBeforeVictory.text = e.eNEnemiesLeftBeforeVictory.ToString();
-        m_TxtFuel.text = e.eFuel.ToString();
     }
     #endregion
 
@@ -74,11 +73,8 @@ public class HudManager : Manager<HudManager>
     #region Callbacks to Level events
     private void LevelHasBeenInstantiated(LevelHasBeenInstantiatedEvent e)
     {
-        m_TxtBestScore.text = "--";
         m_TxtScore.text = "--";
         m_TxtNLives.text = "--";
-        m_TxtNEnemiesLeftBeforeVictory.text = "--";
-        m_TxtFuel.text = "--";
     }
 	
     private void GoToNextLevel(GoToNextLevelEvent e){

@@ -6,10 +6,10 @@ using UnityEngine;
 public class Shooter : MonoBehaviour
 {
     [SerializeField] private float shootSpeed = 12f;
-    [SerializeField] private float shootDelay = 0.5f;
+    [SerializeField] public float shootDelay = 0.5f;
     [SerializeField] public GameObject bulletPrefab;
     
-    private Transform originateFrom;
+    Transform originateFrom;
 
     public bool IsShooting { get; set; }
 
@@ -38,27 +38,38 @@ public class Shooter : MonoBehaviour
             StartCoroutine(ShootCoroutine(towards));
         }
     }
-    
+
     IEnumerator ShootCoroutine(Vector2 towards)
     {
         Transform transf = transform;
-        Vector2 pos = transf.position;
+        Vector2 pos = GetComponentInChildren<Canon>().transform.position;
         Vector2 endPos = towards - pos;
         
         IsShooting = true;
-        
-        GameObject bulletGO = Instantiate(bulletPrefab, 
-            pos, transf.rotation);
+
+        GameObject bulletGO = Instantiate(bulletPrefab, pos, transform.rotation, 
+        LevelsManager.Instance.CurrentLevel.transform);
 
         if (originateFrom != null)
         {
-            bulletGO.GetComponent<Bullet>().Origin = originateFrom;
+            var bullet = bulletGO.GetComponent<Bullet>();
+            if (bullet != null)
+            {
+                bullet.Origin = originateFrom;
+                Rigidbody2D bulletRb = bulletGO.GetComponent<Rigidbody2D>();
+                bulletRb.velocity = endPos.normalized * shootSpeed;
+            }
+            else
+            {
+                var bullets = bulletGO.GetComponentsInChildren<Bullet>();
+                foreach (var b in bullets)
+                {
+                    b.Origin = originateFrom;
+                    Rigidbody2D bulletRb = b.GetComponent<Rigidbody2D>();
+                    bulletRb.velocity = endPos.normalized * shootSpeed;
+                }
+            }
         }
-        
-        Rigidbody bulletRb = bulletGO.GetComponent<Rigidbody>();
-
-        //distance = temps * vitesse
-        bulletRb.velocity = endPos.normalized * shootSpeed;
 
         yield return new WaitForSeconds(shootDelay);
         

@@ -47,6 +47,8 @@ public class GameManager : Manager<GameManager> {
 		//Level
 		EventManager.Instance.AddListener<LevelHasBeenInstantiatedEvent>(LevelHasBeenInstantiated);
 		EventManager.Instance.AddListener<AllEnemiesOfLevelHaveBeenDestroyedEvent>(AllEnemiesOfLevelHaveBeenDestroyed);
+		EventManager.Instance.AddListener<AskToGoToNextLevelEvent>(AskToGoToNextLevel);
+		EventManager.Instance.AddListener<TriggerGameVictoryEvent>(TriggerGameVictory);
 
 		//Player
 		EventManager.Instance.AddListener<PlayerHasBeenHitEvent>(PlayerHasBeenHit);
@@ -77,6 +79,8 @@ public class GameManager : Manager<GameManager> {
 		//Level
 		EventManager.Instance.RemoveListener<LevelHasBeenInstantiatedEvent>(LevelHasBeenInstantiated);
 		EventManager.Instance.RemoveListener<AllEnemiesOfLevelHaveBeenDestroyedEvent>(AllEnemiesOfLevelHaveBeenDestroyed);
+		EventManager.Instance.RemoveListener<AskToGoToNextLevelEvent>(AskToGoToNextLevel);
+		EventManager.Instance.RemoveListener<TriggerGameVictoryEvent>(TriggerGameVictory);
 
 		//Player
 		EventManager.Instance.RemoveListener<PlayerHasBeenHitEvent>(PlayerHasBeenHit);
@@ -102,6 +106,21 @@ public class GameManager : Manager<GameManager> {
 	#endregion
 	
 	#region Time
+	
+	public float Timer { get; set; } = 0;
+	
+	private void FixedUpdate()
+	{
+		if (IsPlaying)
+		{
+			Timer -= Time.deltaTime;
+			if (Timer < 0f)
+			{
+				Over();
+			}
+		}
+	}
+	
 	void SetTimeScale(float newTimeScale)
 	{
 		Time.timeScale = newTimeScale;
@@ -281,7 +300,7 @@ public class GameManager : Manager<GameManager> {
 			return FindObjectsOfType<PlayerController>().Select(item=>item.transform).ToArray();
 		}
 	}
-	
+
 	public _3DCollision[] _3DCollisions => FindObjectsOfType<_3DCollision>();
 
 	public GameObject GetSelectedDrone()
@@ -296,21 +315,23 @@ public class GameManager : Manager<GameManager> {
 
 	#region Game flow & Gameplay
 	//Game initialization
-	void InitNewGame(int levelNumber)
+	void InitNewGame()
 	{
 		SetScore(0);
 		SetNLives(m_NStartLives);
 		SetNEnemiesLeftBeforeVictory(m_NEnemiesToDestroyForVictory);
 		
 		m_GameState = GameState.gameNextLevel;
+		int levelNumber = LevelsManager.Instance.mCurrentLevelIndex;
 		EventManager.Instance.Raise(new GoToNextLevelEvent()
-			{eLevelIndex = --levelNumber});
+			{eLevelIndex = levelNumber});
 	}
 	#endregion
 
 	#region Callbacks to events issued by LevelManager
 	private void LevelHasBeenInstantiated(LevelHasBeenInstantiatedEvent e)
 	{
+		Timer = e.eLevel.timeLimit;
 		SetTimeScale(1);
 		m_GameState = GameState.gamePlay;
 	}
@@ -343,6 +364,14 @@ public class GameManager : Manager<GameManager> {
 	#endregion
 
 	#region Callbacks to events issued by Level
+	private void AskToGoToNextLevel(AskToGoToNextLevelEvent e)
+	{
+		SetTimeScale(0);
+	}
+	private void TriggerGameVictory(TriggerGameVictoryEvent e)
+	{
+		Victory();
+	}
 	private void AllEnemiesOfLevelHaveBeenDestroyed(AllEnemiesOfLevelHaveBeenDestroyedEvent e)
 	{
 	}
@@ -356,7 +385,7 @@ public class GameManager : Manager<GameManager> {
 
 	private void PlayButtonClicked(PlayButtonClickedEvent e)
 	{
-		Play(0);
+		Play();
 	}
 	
 	private void InstructionsButtonClicked(InstructionsButtonClickedEvent e)
@@ -400,12 +429,11 @@ public class GameManager : Manager<GameManager> {
 		EventManager.Instance.Raise(new GameMenuEvent());
 	}
 
-	private void Play(int levelNumber)
+	private void Play()
 	{
 		m_GameState = GameState.gamePlay;
-		MusicLoopsManager.Instance.PlayMusic(levelNumber + 1);
 		EventManager.Instance.Raise(new GamePlayEvent());
-		InitNewGame(levelNumber);
+		InitNewGame();
 	}
 	
 	private void Instructions()
@@ -432,7 +460,7 @@ public class GameManager : Manager<GameManager> {
 	{
 		SetTimeScale(0);
 		m_GameState = GameState.gameOver;
-		SfxManager.Instance.PlaySfx(Constants.GAMEOVER_SFX);
+		SfxManager.Instance.PlaySfx("GameOver");
 		EventManager.Instance.Raise(new GameOverEvent());
 	}
 
@@ -440,7 +468,7 @@ public class GameManager : Manager<GameManager> {
 	{
 		SetTimeScale(0);
 		m_GameState = GameState.gameVictory;
-		SfxManager.Instance.PlaySfx(Constants.VICTORY_SFX);
+		SfxManager.Instance.PlaySfx("Victory");
 		EventManager.Instance.Raise(new GameVictoryEvent());
 	}
 	

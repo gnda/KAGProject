@@ -30,7 +30,7 @@ public class MenuManager : Manager<MenuManager> {
 
 		//GameManager
 		EventManager.Instance.AddListener<AskToGoToNextLevelEvent>(AskToGoToNextLevel);
-		EventManager.Instance.AddListener<GoToNextLevelEvent>(GoToNextLevel);
+		EventManager.Instance.AddListener<LevelHasBeenInstantiatedEvent>(LevelHasBeenInstantiated);
 	}
 
 	public override void UnsubscribeEvents()
@@ -39,7 +39,7 @@ public class MenuManager : Manager<MenuManager> {
 
 		//GameManager
 		EventManager.Instance.RemoveListener<AskToGoToNextLevelEvent>(AskToGoToNextLevel);
-		EventManager.Instance.RemoveListener<GoToNextLevelEvent>(GoToNextLevel);
+		EventManager.Instance.RemoveListener<LevelHasBeenInstantiatedEvent>(LevelHasBeenInstantiated);
 	}
 	#endregion
 
@@ -149,7 +149,7 @@ public class MenuManager : Manager<MenuManager> {
 		OpenPanel(m_PanelNextLevel);
 	}
 
-	private void GoToNextLevel (GoToNextLevelEvent e)
+	private void LevelHasBeenInstantiated(LevelHasBeenInstantiatedEvent e)
 	{
 		OpenPanel(null);
 	}
